@@ -68,11 +68,7 @@ Add the widget component to your main layout (e.g., `resources/views/layouts/app
 <x-openproject-feedback::feedback-widget />
 ```
 
-Or use the Blade directive:
-
-```blade
-@include('openproject-feedback::components.feedback-widget')
-```
+**Note:** The widget uses `@vite()` for asset loading. Make sure your layout has a `@stack('scripts')` directive where scripts are loaded, or the widget will be included directly in the body.
 
 ### Compile Assets
 
@@ -132,7 +128,7 @@ The package automatically registers a route at `/api/feedback` (or your configur
 'routes' => [
     'enabled' => true,
     'prefix' => 'api',
-    'middleware' => 'web,auth',
+    'middleware' => ['web', 'auth'], // Array format
 ],
 ```
 

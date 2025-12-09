@@ -16,3 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configurable authentication requirements
 - Comprehensive configuration options
 
+### Fixed
+- Fixed widget script loading using `@vite()` instead of `asset()`
+- Fixed widget visibility issues by using inline styles instead of dynamic Tailwind classes
+- Fixed `openModal()` method name to `open()` in widget JavaScript
+- Fixed middleware configuration to use array format instead of string
+- Improved widget initialization with better error handling and debug logging
+
