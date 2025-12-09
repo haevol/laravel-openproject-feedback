@@ -1,5 +1,21 @@
 @if(config('openproject-feedback.widget.enabled', true))
     @if(!config('openproject-feedback.widget.show_only_authenticated', true) || auth()->check())
+        @if(config('openproject-feedback.widget.show_only_authenticated', true) && auth()->check())
+            <script>
+                (function() {
+                    function addAuthClass() {
+                        if (document.body) {
+                            document.body.classList.add('authenticated');
+                            document.body.setAttribute('data-user-id', '{{ auth()->id() }}');
+                        } else {
+                            setTimeout(addAuthClass, 10);
+                        }
+                    }
+                    addAuthClass();
+                })();
+            </script>
+        @endif
+
         @push('scripts')
             <script>
                 window.OpenProjectFeedbackConfig = {
@@ -20,15 +36,8 @@
                     showOnlyAuthenticated: {{ config('openproject-feedback.widget.show_only_authenticated', true) ? 'true' : 'false' }},
                 };
             </script>
-            <script src="{{ asset('js/vendor/openproject-feedback/feedback-widget.js') }}"></script>
+            @vite(['resources/js/vendor/openproject-feedback/feedback-widget.js'])
         @endpush
-
-        @if(config('openproject-feedback.widget.show_only_authenticated', true) && auth()->check())
-            <script>
-                document.body.classList.add('authenticated');
-                document.body.setAttribute('data-user-id', '{{ auth()->id() }}');
-            </script>
-        @endif
     @endif
 @endif
 
