@@ -60,7 +60,7 @@ return [
     'routes' => [
         'enabled' => env('OPENPROJECT_FEEDBACK_ROUTES_ENABLED', true),
         'prefix' => env('OPENPROJECT_FEEDBACK_ROUTES_PREFIX', 'api'),
-        'middleware' => env('OPENPROJECT_FEEDBACK_ROUTES_MIDDLEWARE', 'web,auth'),
+        'middleware' => ['web', 'auth'], // Always use array format
     ],
 
     /*

@@ -41,19 +41,40 @@
         }
 
         getButtonClasses() {
-            const position = this.config.position || 'bottom-left';
-            const positions = {
-                'top-left': `top-${this.config.offset.top || 16} left-${this.config.offset.left || 0}`,
-                'top-right': `top-${this.config.offset.top || 16} right-${this.config.offset.right || 16}`,
-                'bottom-left': `bottom-${this.config.offset.bottom || 64} left-${this.config.offset.left || 0}`,
-                'bottom-right': `bottom-${this.config.offset.bottom || 64} right-${this.config.offset.right || 16}`,
-            };
-            
-            return `fixed ${positions[position] || positions['bottom-left']} z-${this.config.zIndex || 50} rounded-tr-md rounded-bl-none px-1.5 py-3 shadow-lg transition-all duration-300`;
+            return 'feedback-widget-button';
         }
 
         getButtonStyles() {
-            return `background-color: ${this.config.colors.primary}; writing-mode: vertical-rl; text-orientation: mixed;`;
+            const position = this.config.position || 'bottom-left';
+            const offset = this.config.offset || {};
+            
+            let styles = `background-color: ${this.config.colors.primary}; `;
+            styles += `writing-mode: vertical-rl; `;
+            styles += `text-orientation: mixed; `;
+            styles += `z-index: ${this.config.zIndex || 50}; `;
+            styles += `position: fixed; `;
+            styles += `cursor: pointer; `;
+            styles += `border: none; `;
+            styles += `border-radius: 0.375rem 0.375rem 0 0; `;
+            styles += `padding: 0.75rem 0.375rem; `;
+            styles += `box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); `;
+            styles += `transition: all 0.3s; `;
+            
+            if (position === 'top-left') {
+                styles += `top: ${offset.top || 16}px; `;
+                styles += `left: ${offset.left || 0}px; `;
+            } else if (position === 'top-right') {
+                styles += `top: ${offset.top || 16}px; `;
+                styles += `right: ${offset.right || 16}px; `;
+            } else if (position === 'bottom-right') {
+                styles += `bottom: ${offset.bottom || 64}px; `;
+                styles += `right: ${offset.right || 16}px; `;
+            } else { // bottom-left
+                styles += `bottom: ${offset.bottom || 64}px; `;
+                styles += `left: ${offset.left || 0}px; `;
+            }
+            
+            return styles;
         }
 
         createButton() {
@@ -78,7 +99,40 @@
                 button.style.backgroundColor = this.config.colors.primary;
             });
             
+            button.addEventListener('click', () => {
+                this.open();
+            });
+            
             document.body.appendChild(button);
+            
+            // Force visibility check
+            setTimeout(() => {
+                const computed = window.getComputedStyle(button);
+                console.log('[FeedbackWidget] Button created and appended to body', {
+                    button: button,
+                    classes: button.className,
+                    styles: button.style.cssText,
+                    computedPosition: computed.position,
+                    computedZIndex: computed.zIndex,
+                    computedBottom: computed.bottom,
+                    computedLeft: computed.left,
+                    computedTop: computed.top,
+                    computedRight: computed.right,
+                    computedDisplay: computed.display,
+                    computedVisibility: computed.visibility,
+                    computedOpacity: computed.opacity,
+                    isInViewport: button.getBoundingClientRect().width > 0 && button.getBoundingClientRect().height > 0,
+                    boundingRect: button.getBoundingClientRect()
+                });
+                
+                // Force make it visible if hidden
+                if (computed.display === 'none' || computed.visibility === 'hidden' || computed.opacity === '0') {
+                    console.warn('[FeedbackWidget] Button is hidden! Forcing visibility...');
+                    button.style.display = 'block';
+                    button.style.visibility = 'visible';
+                    button.style.opacity = '1';
+                }
+            }, 100);
         }
 
         createModal() {
@@ -300,18 +354,31 @@
     }
 
     function initFeedbackWidget() {
-        if (!document.body) return;
+        if (!document.body) {
+            console.log('[FeedbackWidget] Body not ready, retrying...');
+            setTimeout(initFeedbackWidget, 100);
+            return;
+        }
+        
+        console.log('[FeedbackWidget] Initializing...', {
+            showOnlyAuthenticated: config.showOnlyAuthenticated,
+            hasAuthenticatedClass: document.body.classList.contains('authenticated'),
+            hasUserId: !!document.querySelector('[data-user-id]'),
+            config: config
+        });
         
         if (config.showOnlyAuthenticated) {
             if (!document.body.classList.contains('authenticated') && !document.querySelector('[data-user-id]')) {
+                console.log('[FeedbackWidget] User not authenticated, skipping widget');
                 return;
             }
         }
         
         try {
             new FeedbackWidget();
+            console.log('[FeedbackWidget] Widget initialized successfully');
         } catch (error) {
-            console.error('Error initializing FeedbackWidget:', error);
+            console.error('[FeedbackWidget] Error initializing:', error);
         }
     }
 
@@ -329,4 +396,3 @@
         initFeedbackWidget();
     });
 })();
-
