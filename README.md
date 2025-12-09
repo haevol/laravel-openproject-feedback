@@ -2,7 +2,8 @@
 
 [![Latest Version](https://img.shields.io/packagist/v/haevol/laravel-openproject-feedback.svg?style=flat-square)](https://packagist.org/packages/haevol/laravel-openproject-feedback)
 [![Total Downloads](https://img.shields.io/packagist/dt/haevol/laravel-openproject-feedback.svg?style=flat-square)](https://packagist.org/packages/haevol/laravel-openproject-feedback)
-[![License](https://img.shields.io/packagist/l/haevol/laravel-openproject-feedback.svg?style=flat-square)](https://packagist.org/packages/haevol/laravel-openproject-feedback)
+![License](https://img.shields.io/packagist/l/haevol/laravel-openproject-feedback.svg)
+
 [![PHP Version](https://img.shields.io/packagist/php-v/haevol/laravel-openproject-feedback.svg?style=flat-square)](https://packagist.org/packages/haevol/laravel-openproject-feedback)
 [![Laravel Version](https://img.shields.io/badge/Laravel-10.x%20%7C%2011.x%20%7C%2012.x-orange.svg?style=flat-square)](https://laravel.com)
 
