@@ -214,11 +214,6 @@ This will publish the view to `resources/views/vendor/openproject-feedback/compo
 
 ---
 
-## 📸 Screenshots
-
-*Add screenshots of the widget in action here*
-
----
 
 ## 🔧 Advanced Usage
 
@@ -247,13 +242,6 @@ $result = $service->createWorkPackage([
 
 ---
 
-## 🧪 Testing
-
-```bash
-composer test
-```
-
----
 
 ## 🤝 Contributing
 
