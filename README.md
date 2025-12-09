@@ -269,7 +269,8 @@ If you discover any security-related issues, please email info@haevol.org instea
 
 ## 📄 License
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+The MIT License (MIT). Please see ![License](https://img.shields.io/packagist/l/haevol/laravel-openproject-feedback.svg)
+  for more information.
 
 ---
 
