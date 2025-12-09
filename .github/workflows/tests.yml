@@ -45,13 +45,16 @@ jobs:
         run: |
           composer require "illuminate/support:${{ matrix.laravel }}" "illuminate/http:${{ matrix.laravel }}" "illuminate/routing:${{ matrix.laravel }}" --no-update --no-interaction
           if [[ "${{ matrix.laravel }}" == "12.*" ]]; then
+            composer remove orchestra/testbench phpunit/phpunit --dev --no-update --no-interaction || true
             composer require "orchestra/testbench:^11.0" "phpunit/phpunit:^11.0" --dev --no-update --no-interaction
           elif [[ "${{ matrix.laravel }}" == "11.*" ]]; then
+            composer remove orchestra/testbench phpunit/phpunit --dev --no-update --no-interaction || true
             composer require "orchestra/testbench:^10.0" "phpunit/phpunit:^10.0" --dev --no-update --no-interaction
           else
+            composer remove orchestra/testbench phpunit/phpunit --dev --no-update --no-interaction || true
             composer require "orchestra/testbench:^9.0" "phpunit/phpunit:^10.0" --dev --no-update --no-interaction
           fi
-          composer install --prefer-dist --no-interaction --no-progress
+          composer update --prefer-dist --no-interaction --no-progress
 
       - name: Execute tests
         run: vendor/bin/phpunit
